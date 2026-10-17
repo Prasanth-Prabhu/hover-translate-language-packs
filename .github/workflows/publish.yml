@@ -1,0 +1,43 @@
+# Publishes packs/*.zip + packs/models-index.json as the GitHub release named in models-index.json.
+# Hover Translate downloads a pack only if its SHA-256 matches the one built into the app.
+name: publish
+
+on:
+  push:
+    branches: [main]
+    paths: ["packs/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check every pack against models-index.json
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib, sys
+          idx = json.loads(pathlib.Path("packs/models-index.json").read_text())
+          bad = [p for p, e in idx["pairs"].items()
+                 if hashlib.sha256(pathlib.Path("packs", e["file"]).read_bytes()).hexdigest() != e["sha256"]]
+          print("mismatch: " + ", ".join(bad) if bad else f"{len(idx['pairs'])} packs match")
+          sys.exit(1 if bad else 0)
+          PY
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(python3 -c "import json; print(json.load(open('packs/models-index.json'))['release'])")
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" packs/*.zip packs/models-index.json --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" packs/*.zip packs/models-index.json --repo "$GITHUB_REPOSITORY" \
+              --title "Language packs ${TAG#models-}" \
+              --notes "Opus-MT translation models (Helsinki-NLP, CC-BY 4.0), converted to CTranslate2 int8 for Hover Translate. The app installs a pack only if it matches the SHA-256 built into it."
+          fi

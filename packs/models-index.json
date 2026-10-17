@@ -1,0 +1,42 @@
+{
+ "base_url": "https://github.com/Prasanth-Prabhu/hover-translate-language-packs/releases/download/models-3/",
+ "format": 1,
+ "pairs": {
+  "de-en": {
+   "file": "de-en.zip",
+   "sha256": "b9541e40e7cf101cb1c115873f361c07f3a49c470c3bf5e43a38eb9ed2c555b2",
+   "size": 66518391
+  },
+  "es-en": {
+   "file": "es-en.zip",
+   "sha256": "c27fa66307f7c7d8c68e8586546d163ef4c4a541ff1d2891211502ca2a2d2400",
+   "size": 67783917
+  },
+  "fi-en": {
+   "file": "fi-en.zip",
+   "sha256": "92658f6b435bf9f828a2e53ecbec7cc841e9bcf1aca5c1037f72766ad55db248",
+   "size": 69396966
+  },
+  "fr-en": {
+   "file": "fr-en.zip",
+   "sha256": "816c341fb03886c3eb5d686a3f4145d3cd7dacf4c0ba7dcafac9637b284e36e5",
+   "size": 63481922
+  },
+  "it-en": {
+   "file": "it-en.zip",
+   "sha256": "0b10a84640b155d4aefcc818e334c7a6f69efe1d5a2c7b9a27177b87d372490d",
+   "size": 69540325
+  },
+  "pl-en": {
+   "file": "pl-en.zip",
+   "sha256": "6860d42e77af8f10219c47bff77a180463013f5ba2d74d9797d479d0457e71d2",
+   "size": 69718034
+  },
+  "sv-en": {
+   "file": "sv-en.zip",
+   "sha256": "a53e7b22ea9d7bebee55b68d363833b59422a730a68b62a5202da9ff3caae08d",
+   "size": 66483180
+  }
+ },
+ "release": "models-3"
+}
